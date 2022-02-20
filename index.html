@@ -1,0 +1,475 @@
+<!-- 
+I need to fix the help page
+
+I need to make it look nice.
+
+I also want to have the help page descrive each help icon
+
+
+I want to change the footer been to link color 
+
+
+Then i'll have to reupload the images to google slides
+-->
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <style>
+            /* The color design is following https://colorpalettes.net/color-palette-4253/ */
+
+            /* used to hide the mathjax logo
+                Its always hidden but has a length longer
+                then the container.  So i have to display
+                none everthing.
+            */
+            * {            
+              font-family: Times;            
+            }            
+            h1{            
+              line-height: 100%;            
+            }
+            #MathJax_SVG_Hidden{
+                display:none;
+            }
+            #MathJax_SVG_Hidden + svg{
+                display:none;
+            }
+            body {
+              margin: 0;
+              min-height: 100%;
+            }
+            html {
+                height:100%;
+            }
+            h1 {
+                margin: 0;
+            }
+            header{
+                /* border-bottom: solid; */
+                padding-top: 0.5em;
+                padding-bottom: 0.5em;
+                /* margin-bottom: 1em; */
+                /* background: url(https://github.com/YuuuXie/Latex2Text/blob/main/color-palette-4291.png?raw=true); */
+                /* background: url(https://colorpalettes.net/wp-content/uploads/2019/11/cvetovaya-palitra-4049.png); */
+                /* background: url(https://github.com/YuuuXie/Latex2Text/blob/main/cvetovaya-palitra-4052.png?raw=true); */
+                background: url(https://github.com/YuuuXie/LaTTe/blob/main/color-palette-4253.png?raw=true);
+                background-size: cover;
+                /* background: #c1c5c6; */
+            }
+            header > h1{
+              padding-left: 20%;
+              /* color: #546747; */
+              /* color: #001244;  */
+              color: #253812;
+              /* bold: true; */
+              font-style: bold;
+              font-family: Calibri;
+              /* border: 2px solid #73AD21;
+              border-radius: 25px; */
+              /* background: white; */
+              text-align: left;
+              opacity: 1.0;
+              /* margin: 1px; */
+              font-size: 40px;
+            }
+            header h2 {
+              padding-right: 20%;
+              font-style: italic;
+              text-align: right;
+              font-family: Calibri;
+              /* color: #6b4633; */
+              color: #ffffff;
+              opacity: 0.8;
+              /* #253812; */
+            }
+            /* #selectMathType{
+              width: 100%;
+              margin-bottom: 6px;
+              background: #FFFFFF; 
+              color: lightgrey;
+              font-size: 1em;
+              border:none;
+              border-bottom: 1px solid black;
+            } */
+            #textAreaMathEquation{
+                height: 140px;
+                /* max-width: 85%; */
+                /* min-width: 85%; */
+                /* margin: 4%; */
+                min-width: 100%;
+                max-width: 100%;
+                padding-top: 0.5em;
+                padding-left: 0.5em;
+                background: #ffffff;
+                color: #2b331f;
+                border: none;
+            }
+            #submitMathEquation{
+                width:100%;
+            }
+            #reloadContainer{
+                padding-top: 5px;
+                display:flex;
+                width:100%;
+            }
+            #reloadContainer > button {
+                flex:1;
+            }
+            button{
+              padding: 10px;
+              /* background: #fddca5; */
+              /* color: #546747; */
+              background: #f8dfb8;
+              color: #ba621c;
+              font-size: 1em;
+              transition: .5s;
+              border: none;
+              /* border-bottom: 2px solid #546747; */
+            }
+            
+            button:hover{
+              /* background: #fab73d; */
+              background: #d7b5a1; /*#b0cac7; /*#318fb5;*/
+            }
+            
+            #logo{
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                height: 60px;
+            }
+            #helpPage{
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                z-index: 2;
+                background: #FFFFFF;
+                top: 0;
+                transition: 1s;
+                border: 2vw solid black;
+                overflow:auto;
+                transform: "translateX(100%)";
+                box-sizing: border-box;
+                will-change: transform;
+            }
+            #siteMainContent{
+                flex: 1;
+            }
+            #main {
+                height:100%;
+            }
+            #elmContainer{
+                display: flex;
+                min-height: 100vh;
+                flex-direction: column;
+            }
+
+            #exitIcon{
+                cursor: pointer;
+                margin-left:30px;
+            }
+            #helpIcon{
+                height: 20px;
+                cursor: pointer;
+                position: absolute;
+                top: 11%;
+                right: 8%;
+            }
+            #ErrorMessage{
+              background: #ff5e5e;
+              padding: 10px;
+            }
+            #SvgContainer{
+               overflow:hidden;
+               padding-left: 0.5em;
+            }
+            #selectColor{
+                flex:1;
+                border-radius: 0px;
+                background: white;
+                box-sizing: border-box;
+            }
+            .iconInButton{
+                height:15px;
+                padding-left:5px;
+            }
+            footer{
+                padding-left: 0.5em;
+                /* color: #546747;
+                background: #bbc8ba; */
+                color: #ba621c;
+                background: #e09d30;
+            }
+            #colorSelectContainer{
+                display:flex;
+                height:20px;
+            }
+            #iconColorPalett{
+                height:100%;
+            }
+            .indentText{
+                text-indent: 20px;
+            }
+            a{
+                /* color: #2b331f;  */
+                color: #6b4633;
+                /* color: #005086; */
+            }
+            a:vistited{
+                color:  #b000ff
+            }
+
+            #sizeSelectContainer{
+                display:flex;
+                padding-top: 10px;
+            }
+
+            .iconSizeButton{
+                flex:1;
+            }
+
+            .iconSizeButtonSelected{
+               background:#fdfffb;
+               /*background: linear-gradient(to bottom, #fdfffb 95%,#ffff9e 100%);*/ 
+            }
+            
+            #textInputSize{
+              transition: .2s;
+              width:50px;
+              background: #FFFFFF;
+              border: 0;
+              border-bottom: 2px solid black;
+              text-align: right;
+            }
+            #textInputSize:focus { 
+                background-color: white;
+            }
+            #textInputSize:hover:not(:focus) {
+              background: #fff4d6;
+            }
+
+        </style>
+    </head>
+    <body>
+    <div id="main"></div>
+    <canvas id="myCanvas" width="800" style="display:none" >
+    
+        
+        
+        <?!= include('SelectInput'); ?>
+       
+     <!--
+
+        used when locally developing
+        <script src="SelectInput.js"></script>
+        
+        used with google app script 
+        <?!= include('SelectInput'); ?>
+    
+     -->
+    
+    <script type="text/javascript" 
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js" async >
+    </script>
+    <script type="text/x-mathjax-config">
+        // needs to be in heer or else it doesn't work 
+        //common configs
+        //http://docs.mathjax.org/en/latest/config-files.html
+        MathJax.Hub.Config({
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/SVG"],
+            extensions: ["tex2jax.js","mml2jax.js","MathEvents.js","asciimath2jax.js","MathZoom.js","AssistiveMML.js"],
+            MathML: {
+                extensions: ["content-mathml.js"]
+            },
+            TeX: {
+                Macros: {
+                    RR: '{\\bf R}',
+                    bold: ['{\\bf #1}', 1]
+                }
+            },
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+            },
+            AsciiMath: {
+                fixphi: true,
+                useMathMLspacing: true,
+                displaystyle: false,
+                decimalsign: "."
+            },
+            SVG: {
+                //font: "STIX-Web",
+                mtextFontInherit: true,
+                blacker: 1,
+                linebreaks: { automatic: true },
+                useFontCache: false
+            },
+            menuSettings: {
+                zoom: "Click"
+            },
+            MatchWebFonts: {
+                matchFor: {
+                    //https://github.com/electron/electron/issues/6564
+                    // use fontcache off
+                    SVG: {useFontCache: false}
+                },
+                fontCheckDelay: 500,
+                fontCheckTimeout: 15 * 1000
+                },
+                messageStyle: "none"
+            }
+        );
+    </script>
+
+    <script >
+        var divSvmEquation = "SvgContainer";
+        var node = document.getElementById('main');
+        var app = Elm.Main.embed(node);
+        /*start a timer whenever 
+          updateEquation is called.
+          Then you can remove it
+          if its been called to much.
+          This reduces the amount of
+          items you put on the 
+          MathJax.Hub.Queue
+        */
+        var submitTimer = undefined;
+        // receive something from Elm
+        app.ports.updateEquaion.subscribe(function (equationObject) {
+            clearTimeout(submitTimer);
+            submitTimer = setTimeout(function(){
+              var equationJson = JSON.parse(equationObject)
+              var divIdEquation = equationJson["mathType"] + "Equation";
+              var divEquation = document.getElementById(divIdEquation)
+              var math = MathJax.Hub.getAllJax(divIdEquation)[0];
+              divEquation.style.width = "1000px";
+              
+              
+              // page on live reloading
+              // https://docs.mathjax.org/en/v1.0/typeset.html 
+              if("MathML" == equationJson["mathType"]){
+                  divEquation.innerHTML =  '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">' + 
+                                                                       equationJson["mathEquation"] +
+                                                                       '</math>'
+                  MathJax.Hub.Queue(["Typeset",MathJax.Hub,divIdEquation]);
+              }
+              else{
+                  MathJax.Hub.Queue(["Text",math,equationJson["mathEquation"]]);
+              }
+              //this timeout allows MathJax to create the svg on a larger width then
+              // convert it make to the width it could be
+              setTimeout(function(){
+                divEquation.style.width = "inherit";
+                divEquation.style.overflowX = "auto";
+                }, 100);
+            },100);
+            
+
+
+        });
+        app.ports.sumitEquation.subscribe(function(str){
+            jsonElmRequest = JSON.parse(str)
+            var divSvg = document.getElementById(jsonElmRequest["mathType"] + "Equation");
+            if(divSvg != null && jsonElmRequest["mathEquation"] != ""){
+            
+                var svg = divSvg.getElementsByTagName("svg")[0];
+                var svgClone = svg.cloneNode(true);
+                svgClone.style.color = jsonElmRequest["mathEquationColor"]
+                var canvas = document.getElementById("myCanvas");
+                console.log(jsonElmRequest);
+                drawInlineSVG(svgClone, function(){
+                    var image = canvas.toDataURL("image/png");
+                    jsonElmRequest["image"] = image.split("base64,")[1];
+                    
+                    //jsonElmRequest["ratioImage"] = image.
+                    
+                    jsonElmRequest["ratio"]  = canvas.width/canvas.height;
+                    //create image and add them to the slideshow
+                    google.script.run.withSuccessHandler(
+                      function(ObjectId){
+                        
+                        //once the image is added to the slideshow add alt text
+                        //set timeout is or slow internet connection
+                        var amountOfAttemts = 0;
+                        var sendAltText = function(error){
+                          console.log("sending alt text changes");
+                          console.log(amountOfAttemts);
+                          if(amountOfAttemts < 10){
+                            setTimeout( function(){
+                            
+                              google.script.run.withSuccessHandler(success).withFailureHandler(sendAltText).addAltText(jsonElmRequest, ObjectId);
+                            }, 100 * amountOfAttemts);
+                          }
+                          amountOfAttemts++;
+                        }
+                        sendAltText();
+
+                      }
+                    ).withFailureHandler(error).setImage(jsonElmRequest);
+                });    
+            }
+        });
+        
+        app.ports.reloadEquaion.subscribe(function(str){
+           google.script.run.withSuccessHandler(function(results){
+               
+               console.log(results);
+               app.ports.updatingLinkedMathEquation.send(results.objectId)
+               app.ports.updatingMathEquation.send(results.equation)
+               if(results.equationColor != undefined){
+                   app.ports.updatingMathEquationColor.send(results.equationColor)
+               }
+               else{
+                   app.ports.updatingMathEquationColor.send("#000000")
+               }
+               console.log
+               app.ports.updatingMathEquationSize.send(Math.round(results.equationSize) + "");
+               
+               
+           }).withFailureHandler(error).getLinkedToImage();
+        });
+        
+        
+        var success = function (){
+          console.log("success")
+        }
+        var error = function(error){
+          console.log(error)
+          app.ports.updateErrorMessage.send(error.toString());
+        }
+        
+        /*
+            accept a svg and will perfect construct a canvas to match
+            the dimension of the svg
+        */
+        function drawInlineSVG(svgElement, callback){
+            
+            var listText = svgElement.getElementsByTagName("text");
+            for(var j = listText.length - 1; j >= 0 ; j--){
+            
+              listText[j].parentNode.removeChild(listText[j])
+            }
+        
+            var svgURL = new XMLSerializer().serializeToString(svgElement);
+            var canvas = document.getElementById("myCanvas");
+            
+            var ratioSvg = svgElement.height.baseVal.valueInSpecifiedUnits/svgElement.width.baseVal.valueInSpecifiedUnits;
+            var heigthSvg =  canvas.width * ratioSvg
+            
+            canvas.height =  Math.round(heigthSvg)
+            
+            var img  = new Image();
+            img.onload = function(){                      //width // height
+              console.log("calling the callback");
+              canvas.getContext('2d').drawImage(this, 0,0, canvas.width, canvas.height);
+              
+              callback();
+            }
+          
+            img.src = 'data:image/svg+xml; charset=utf8, '+  encodeURIComponent(svgURL); 
+        }
+
+    </script>
+     
+    </body>
+</html>
