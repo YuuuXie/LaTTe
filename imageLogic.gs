@@ -1,34 +1,14 @@
-function setImage(jsonImageData){
-  // var imageSlide = undefined;
-  
-  // //var imageProperties = getSpecificSavedProperties("imageProperties");
-  
-  // var image = createImageFromBlob(jsonImageData["image"]);
-  // var slide = SlidesApp.getActivePresentation().getSelection().getCurrentPage();
-  
-  // // if the equation was not linked
-  // if(jsonImageData["linkedMathEquation"] != ""){
-  //   var imageObjectId = jsonImageData["linkedMathEquation"];
-
-  //   imageSlide = findImageSlide(imageObjectId)
-  //   imageSlide.replace(image)
-  // }  // if the equation was linked
-  // else{
-  //   Logger.log("New Image")
-  //   imageSlide = slide.insertImage(image);
-    
-  // }
-  
-  // //set Image size
-  // var sizeEquationHeight = jsonImageData["mathEquationSize"];
-
-  // imageSlide.setWidth(sizeEquationHeight * jsonImageData["ratio"] );
-  // imageSlide.setHeight(sizeEquationHeight );
-
-  // return imageSlide.getObjectId();
-  
+function setImage(jsonImageData){  
   var slide = SlidesApp.getActivePresentation().getSelection().getCurrentPage();
-  var shape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 100, 200, 300, 60);
+  // if the equation was not linked
+  var shape;
+
+  if(jsonImageData["linkedMathEquation"] != ""){
+    var imageObjectId = jsonImageData["linkedMathEquation"];
+    shape = findImageSlide(imageObjectId);
+  } else{
+    shape = slide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 100, 200, 300, 60);
+  }
   var textRange = shape.getText();
   textRange.setText('Hello world!');
 
@@ -37,42 +17,19 @@ function setImage(jsonImageData){
   var subRange = textRange.getRange(0, 5);
   Logger.log('Sub-range Start: ' + subRange.getStartIndex() + '; Sub-range End: ' +
       subRange.getEndIndex() + '; Sub-range Content: ' + subRange.asString());
-      return shape.getObjectId();
+  return shape.getObjectId();
 
 }
 
 function addAltText(jsonImageData, objectId) 
 {
-  // var image = findImageSlide(objectId);
-
-  // var requests = [{
-  //   updatePageElementAltText: 
-  //   {
-  //     objectId: image.getObjectId(),
-  //     title: createAltTitle(jsonImageData),
-  //     description: jsonImageData["mathEquation"],
-  //   }
-    
-  // }];
-  // try {
-  //   var batchUpdateResponse = Slides.Presentations.batchUpdate({
-  //     requests: requests
-  //   },SlidesApp.getActivePresentation().getId());
-  //   setImage = true;
-  // } catch (e) {
-  //   throw ("BatchUpdateError -  " + e);
-  // }
-
   var shape = findImageSlide(objectId);
+  shape.setTitle(createAltTitle(jsonImageData));
+  shape.setDescription(jsonImageData["mathEquation"]);
   var textRange = shape.getText();
-  // textRange.setText(jsonImageData["mathEquation"]);
   textRange.setText('');
-  // textRange.getTextStyle()
-  //     .setItalic(true)
-  //     .setFontFamily('Libre Baskerville');
+  textRange.set
   mapStyle(jsonImageData["mathEquation"], textRange);
-  // var outputEq = replace(jsonImageData["mathEquation"]);
-  // textRange.appendText(outputEq);
 }
 
 function replace(inputEq){
@@ -114,28 +71,27 @@ function replace(inputEq){
       outputEq = outputEq.slice(0, i) + combined_char + c[1] + remainder;
     }
   }
-  // outputEq = Utilities.newBlob("").setDataFromString(outputEq, "UTF-8").getDataAsString("ANSI");
   return outputEq;
 }
 
-var outputEq = replace('\\mathbf{A}');
-console.info('outputEq %s %d %d', outputEq, outputEq.length, '𝐀'.length);
-// console.info('outputEq[0]=%s, outputEq[1]=%s', outputEq[0], outputEq[1]);
-for (var s = 0; s < outputEq.length; s++){
-  if(outputEq.slice(s, s+2).match(/^(?=.*[𝐀])[𝐀]+$/)){
-    console.info('match s, s+2 %d %s', s, outputEq.slice(s, s+2));
-  } else if (outputEq.slice(s-1, s+1).match(/^(?=.*[𝐀])[𝐀]+$/)) {
-    console.info('match s-1, s+1', outputEq.slice(s-1, s+1));
-  } else {
-    console.info('not match s');
-  }
-}
-if(outputEq.match(/^(?=.*[𝐀𝐳])[𝐀𝐳]+$/)){
-  console.info('match %s ', outputEq);
-} else {
-  console.info('not match');
-}
-
+// // for debug
+// var outputEq = replace('\\mathbf{A}');
+// console.info('outputEq %s %d %d', outputEq, outputEq.length, '𝐀'.length);
+// // console.info('outputEq[0]=%s, outputEq[1]=%s', outputEq[0], outputEq[1]);
+// for (var s = 0; s < outputEq.length; s++){
+//   if(outputEq.slice(s, s+2).match(/^(?=.*[𝐀])[𝐀]+$/)){
+//     console.info('match s, s+2 %d %s', s, outputEq.slice(s, s+2));
+//   } else if (outputEq.slice(s-1, s+1).match(/^(?=.*[𝐀])[𝐀]+$/)) {
+//     console.info('match s-1, s+1', outputEq.slice(s-1, s+1));
+//   } else {
+//     console.info('not match s');
+//   }
+// }
+// if(outputEq.match(/^(?=.*[𝐀𝐳])[𝐀𝐳]+$/)){
+//   console.info('match %s ', outputEq);
+// } else {
+//   console.info('not match');
+// }
 
 function mapStyle(inputEq, textRange){
   var equation1 = '';
@@ -204,7 +160,7 @@ function mapStyle(inputEq, textRange){
     var fontsize = 14;
     var insertedText;
 
-    if(equation.slice(s, s+2).match(/^(?=.*[𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ])[𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ]+$/)){
+    if(equation.slice(s, s+2).match(/^(?=.*[𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ])[𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ]+$/)){ // These unicodes (for mathbf, mathbb) are actually of length 2
       // equation[s] = 'A';
       // bold = true;
       insertedText = textRange.appendText(equation.slice(s, s+2));
@@ -217,9 +173,6 @@ function mapStyle(inputEq, textRange){
       } else if(equation[s].match(/^(?=.*[\u03b1-\u03c9])[\u03b1-\u03c9]+$/)){ // Greek letters
         fontfamily = 'Cambria Math';
         italic = true;
-      // } else if(equation[s].match(/^(?=.*[\u0300-\u0308\u0332-\u0338])[\u0300-\u0308\u0332-\u0338]+$/)){ // decorations: tilde, hat, see COMBININGMARKS
-      //   fontfamily = 'Libre Baskerville';
-      //   italic = false;
       } else if(equation[s].match(/^(?=.*[\u2211\u220f])[\u2211\u220f]+$/)){ // Operators: sum, prod
         fontfamily = 'Times New Roman';
         fontsize += 4;
@@ -254,50 +207,6 @@ function mapStyle(inputEq, textRange){
 
   }
   
-}
-
-var greek_letters = {
-  'alpha': '\u03B1', //'𝛼',
-  'beta': '\u03B2',
-  'gamma': '\u03B3',
-  'delta': '\u03B4',
-  'epsilon': '\u03B5',
-  'zeta': '\u03B6',
-  'eta': '\u03B7',
-  'theta': '\u03B8',
-  'iota': '\u03B9',
-  'kappa': '\u03BA',
-  'lambda': '\u03BB',
-  'mu': '\u03BC',
-  'nu': '\u03BD',
-  'xi': '\u03BE',
-  'omicron': '\u03BF',
-  'pi': '\u03C0',
-  'rho': '\u03C1',
-  'varsigma': '\u03C2',
-  'sigma': '\u03C3',
-  'tau': '\u03C4',
-  'upsilon': '\u03C5',
-  'phi': '\u03C6',
-  'chi': '\u03C7',
-  'psi': '\u03C8',
-  'omiga': '\u03C9',
-};
-
-var operators = {
-  'sum': '∑',
-}
-
-function mapLatexCommand(cmd){
-  var results = {'type': 'normal', 'value': cmd};
-  if(greek_letters.hasOwnProperty(cmd)){
-    results['type'] = 'greek';
-    results['value'] = greek_letters[cmd];
-  } else if(operators.hasOwnProperty(cmd)) {
-    results['type'] = 'operator';
-    results['value'] = operators[cmd];
-  }
-  return results;
 }
 
 function groupInBracket(inputEq, s){
@@ -352,7 +261,8 @@ function getLinkedToImage(){
     throw "can only select one item"
     
     
-  var image = pageElements[0].asImage()
+  // var image = pageElements[0].asImage();
+  var image = pageElements[0].asShape();
   
   
   var imageProperties;
@@ -361,8 +271,10 @@ function getLinkedToImage(){
     imageProperties = imageProperties[image.getObjectId()]
     if(imageProperties == undefined)
     {
-      
-      var altTextTitle = image.getTitle();
+      var altTextTitle = image.getTitle(); //getText().asString();
+      // var altTextTitle = image.getTitle();
+      console.info('image id %s', image.getObjectId());
+      console.info('altTextTitle %s', altTextTitle);
       imageProperties = getAltTextData(altTextTitle);
       imageProperties["equation"] = image.getDescription();
     }
