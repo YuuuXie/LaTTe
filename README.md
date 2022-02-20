@@ -20,7 +20,11 @@ and [Unicodeit](https://github.com/svenkreiss/unicodeit) (for mapping LaTeX to u
 
 ![](https://github.com/YuuuXie/LaTTe/blob/main/example.png?raw=true)
 
-## Limitations
+## Limitations & Todos
 
+- Add back the "Connect to Equation" feature
+- Some common commands are not supported, such as `\exp`, `\sin`, which we can use `\mathrm` as a workaround, but not ideal.
 - `\mathrm{abc}` does not work. Need to do `\mathrm{a}\mathrm{b}\mathrm{c}`, same for `\mathbb{}` and `\mathbf{}`
-- `\frac{}{}` is not supported
+- Support `\frac{}{}` and beautiful `\int` for an equation (need to use three rows for the one-line equation)
+- The super/subscript of a super/subscript is not supported. Since Google slides does not support multi-level super/subscript, 
+    this can be realized by using super/subscript symbols in unicode.
