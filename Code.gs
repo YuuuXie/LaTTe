@@ -17,7 +17,7 @@ function PropertiesTypes(){
 }
 
 function onOpen() {
-  SlidesApp.getUi().createMenu('Latex2Text')
+  SlidesApp.getUi().createMenu('LaTTe')
       .addItem('Menu', 'showSidebar')
       //.addItem('Refresh Data', 'loadDataToSpreadSheet')
       .addToUi();
@@ -27,7 +27,7 @@ function onOpen() {
 
 function showSidebar() {
   
-  var html = doGet().setTitle('Latex2Text UI').setWidth(300);
+  var html = doGet().setTitle('LaTTe UI').setWidth(300);
   SlidesApp.getUi() // Or DocumentApp or FormApp.
       .showSidebar(html);
 }
