@@ -30,7 +30,9 @@ and [Unicodeit](https://github.com/svenkreiss/unicodeit) (for mapping LaTeX to u
 ### Modify the existing equation
 - Method 1: you can edit the plain text directly.
 
-- Method 2: using "Connect to Equation" to get the original LaTeX command, and modify the LaTeX command.
+- Method 2: use tools like [Mathpix](https://mathpix.com) to convert the plain text equation into LaTeX command.
+
+- Method 3: using "Connect to Equation" to get the original LaTeX command, and modify the LaTeX command.
     
     *Note: If you have copied the equation from one text box into another text box, then this method won't work.
 To enable the "connect" method, you have to keep the original text box that the equation is created.*
